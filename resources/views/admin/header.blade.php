@@ -54,7 +54,7 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                  
-                    <a class="dropdown-item" href="#"> {{ Auth::user()->email }}</a>
+                    <a class="dropdown-item" href="#">{{ Auth::user()->email }}</a>
                     <a class="dropdown-item" href="/change_password">Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url('/logout') }}">Log out</a>

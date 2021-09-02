@@ -1,5 +1,5 @@
- <!-- Start: Header Section -->
- <header id="header-v1" class="navbar-wrapper">
+<!-- Start: Header Section -->
+<header id="header-v1" class="navbar-wrapper">
     <div class="container">
         <div class="row">
             <nav class="navbar navbar-default">
@@ -9,7 +9,8 @@
                             <div class="navbar-brand">
                                 <h1>
                                     <a href="index-2.html">
-                                        <img src="{{ asset ('frontend') }}/images/libraria-logo-v1.png" alt="LIBRARIA" />
+                                        <img src="{{ asset ('frontend') }}/images/libraria-logo-v1.png"
+                                            alt="LIBRARIA" />
                                     </a>
                                 </h1>
                             </div>
@@ -23,86 +24,106 @@
                                     <div class="topbar-info">
                                         <a href="tel:+61-3-8376-6284"><i class="fa fa-phone"></i>+61-3-8376-6284</a>
                                         <span>/</span>
-                                        <a href="mailto:support@libraria.com"><i class="fa fa-envelope"></i>support@libraria.com</a>
+                                        <a href="mailto:support@libraria.com"><i
+                                                class="fa fa-envelope"></i>support@libraria.com</a>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="topbar-links">
-                                        <a href="{{ url ('user_register') }}"><i class="fa fa-lock"></i>Login / Register</a>
-                                        <span>|</span>
+                                        <div class="dropdown">
+                                            <!-- <h1>{{ Session::get('username'); }}</h1> -->
+                                            
+<!--  -->
+
+
+
+                                            
+
+                                        @if(Session::get('username'))
+                                        
+                                        <!-- <a href="{{ url ('user_register') }}"><i class="fa fa-lock"></i> Register</a>
+                                        <li><a class="dropdown-item" href="{{ url('/u_logout') }}">logout</a></li> -->
+
+
+
+                                        @if(Session::has('username'))
+                                        
+   
+                                            <strong role="alert" style="color: beige;">{{Session::get('username')->u_name}}
+
+
+                                               
+                                                </strong>
+                                               
+
+                                            <ul class="dropdown-menu" >
+                                                <li><a class="dropdown-item" href="{{ url('/u_profile') }}">PROFILE</a></li>
+                                                <li><a class="dropdown-item" href="{{ url('/user_oder_view') }}">ODER VIEW</a></li>
+                                                <li><a class="dropdown-item" href="{{ url('/u_logout') }}">LOGOUT</a></li>
+                                            </ul>
+                                       
+
+                                            @endif
+
+                                       
+
+                                        @else
+                                      
+                                        <a href="{{ url ('user_login') }}"><i class="fa fa-lock"></i>Login </a>
+
+                                        <a href="{{ url ('user_register') }}"><i class="fa fa-lock"></i> Register</a>
+
+                                        @endif
+                                        </div>
+                                        <br>
+                                       
                                         <div class="header-cart dropdown">
                                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                <small>0</small>
+                                            <a href="{{ url ('/cartview') }}" class="btn btn-warning" ><h4><i class="fa fa-shopping-cart">&nbsp &nbsp</i>Cart</h4></a>
+                                            <!-- {{Session::get('cart')}} -->
                                             </a>
-                                            <div class="dropdown-menu cart-dropdown">
-                                                <ul>
-                                                    <li class="clearfix">
-                                                        <img src="images/header-cart-image-01.jpg" alt="cart item" />
-                                                        <div class="item-info">
-                                                            <div class="name">
-                                                                <a href="#">The Great Gatsby</a>
-                                                            </div>
-                                                            <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                            <div class="price">1 X $10.00</div>
-                                                        </div>
-                                                        <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
-                                                    </li>
-                                                    <li class="clearfix">
-                                                        <img src="images/header-cart-image-02.jpg" alt="cart item" />
-                                                        <div class="item-info">
-                                                            <div class="name">
-                                                                <a href="#">The Great Gatsby</a>
-                                                            </div>
-                                                            <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                            <div class="price">1 X $10.00</div>
-                                                        </div>
-                                                        <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
-                                                    </li>
-                                                    <li class="clearfix">
-                                                        <img src="images/header-cart-image-03.jpg" alt="cart item" />
-                                                        <div class="item-info">
-                                                            <div class="name">
-                                                                <a href="#">The Great Gatsby</a>
-                                                            </div>
-                                                            <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                            <div class="price">1 X $10.00</div>
-                                                        </div>
-                                                        <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
-                                                    </li>
-                                                </ul>
-                                                <div class="cart-total">
-                                                    <div class="title">SubTotal</div>
-                                                    <div class="price">$30.00</div>
-                                                </div>
-                                                <div class="cart-buttons">
-                                                    <a href="cart.html" class="btn btn-dark-gray">View Cart</a>
-                                                    <a href="checkout.html" class="btn btn-primary">Checkout</a>
-                                                </div>
-                                            </div>
+
+                                           
+                                            @if(Session::has('username'))
+                                            
+                                            
+                                                
+                                              
+                                                    @else
+
+                                                    @endif
+                                         
+                                                
+                                            
+                                                    
+                                            
+                                              
+                                            
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-collapse hidden-sm hidden-xs">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown active">
-                                    <a data-toggle="dropdown" class="dropdown-toggle disabled" href="{{ url ('/') }}">Home</a>
-                                   
+                                    <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                        href="{{ url ('/') }}"> home</a>
+                                       
+
                                 </li>
                                 <li class="dropdown">
-                                    <a data-toggle="dropdown" class="dropdown-toggle disabled" href="books-media-list-view.html">Books &amp; Media</a>
+                                    <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                        href="{{ url ('/book_view') }}">Books &amp; Media</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="books-media-list-view.html">Books &amp; Media List View</a></li>
-                                        <li><a href="books-media-gird-view-v1.html">Books &amp; Media Grid View V1</a></li>
-                                        <li><a href="books-media-gird-view-v2.html">Books &amp; Media Grid View V2</a></li>
-                                        <li><a href="books-media-detail-v1.html">Books &amp; Media Detail V1</a></li>
-                                        <li><a href="books-media-detail-v2.html">Books &amp; Media Detail V2</a></li>
+                                        <li><a href="{{ url ('/book_view') }}">Books &amp; Media List View</a></li>
+                                        
                                     </ul>
                                 </li>
                                 <li class="dropdown">
-                                    <a data-toggle="dropdown" class="dropdown-toggle disabled" href="news-events-list-view.html">News &amp; Events</a>
+                                    <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                        href="news-events-list-view.html">News &amp; Events</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="news-events-list-view.html">News &amp; Events List View</a></li>
                                         <li><a href="news-events-detail.html">News &amp; Events Detail</a></li>
@@ -141,7 +162,7 @@
                             <li>
                                 <a href="index-2.html">Home</a>
                                 <ul>
-                                    
+
                                 </ul>
                             </li>
                             <li>

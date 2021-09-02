@@ -127,7 +127,7 @@
                                             
                                             </tr>
                                         
-                                        @endforeach
+                                            @endforeach
                                         </tbody>
                                     </table>
 <center>
@@ -143,6 +143,7 @@
        
         width: 25px;
         margin: auto;
+       
     }
     </style>
                                 </div>

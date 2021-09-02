@@ -18,7 +18,7 @@
                 
                 
        
-                                                <form action="{{ url('/register')}}"  method="POST" enctype="multipart/form-data" >
+                                                <form action="{{ url ('Update_u',array($data->u_id))}}"   method="POST" enctype="multipart/form-data" >
                                                  @csrf
    
                                                 <div class="container">
@@ -30,7 +30,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-4">
                                                                 <input type="text" name="fname"style=" border-color:#000000;"
-                                                                value="{{ $data->name }}" 
+                                                                value="{{ $data->u_name }}" 
                                                                    
                                                                     class="form-control" id="fname">
                                                               
@@ -101,7 +101,7 @@
                                                                 Birthdate<br><input type="date" value="{{$data->bod}}"  style="width: 120%; background-color: rgb(255, 255, 255); border-color:#000000;"
                                                                     name="bod"
                                                                    
-                                                                    id="datepicker" data-bvalidator="required"
+                                                                    id="datepicker" 
                                                                     class="form-control">
                                                             </div>
                    
@@ -109,24 +109,7 @@
                                                         @if($errors->any('bod'))
 		  <span class="text-danger">{{$errors->first('bod')}}</span>
 		@endif
-                                                
-                                                        <div class="row">
-                                                            <div class="col-sm-4">
-                                                                <br><input type="radio" value="{{ $data->gender}}" 
-                                                                
-                                                                    name="g" id="mg" 
-                                                                   >Male<br>
-                                                                <input type="radio" value="{{ $data->gender}}" 
-                                                               
-                                                                    name="g" id="fg">Female
-
-                                                                </td><br>
-                                                                @if($errors->any('g'))
-		  <span class="text-danger">{{$errors->first('g')}}</span>
-		@endif
-                                                            </div>
-              
-                                                        </div><br>
+                     
 
                                                    
 

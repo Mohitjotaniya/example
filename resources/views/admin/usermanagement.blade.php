@@ -93,7 +93,7 @@
                                             <tr>
            
                                             <th>@sortablelink('u_id')</th> 
-                                                <th>@sortablelink('name')</th>
+                                                <th>@sortablelink('u_name')</th>
                                                 <th>@sortablelink('lname')</th>
                                                 <th>@sortablelink('email') </th>
                                                 <th>@sortablelink('phone') </th>
@@ -117,7 +117,7 @@
                                         
                                             <tr>
                                                 <td>{{ $row->u_id }}</td>
-                                                <td>{{ $row->name }}</td>
+                                                <td>{{ $row->u_name }}</td>
                                                 <td>{{ $row->lname }}</td>
                                                 <td>{{ $row->email }}</td>
                                                 <td>{{ $row->phone }}</td>

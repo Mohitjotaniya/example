@@ -41,9 +41,20 @@ return [
             'provider' => 'users',
         ],
 
+        'writer' => [
+            'driver' => 'session',
+            'provider' => 'writers',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+            'hash' => false,
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'writers',
             'hash' => false,
         ],
     ],
@@ -70,6 +81,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'writers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserloginModel::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -95,6 +110,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'writers' => [
+            'provider' => 'writers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

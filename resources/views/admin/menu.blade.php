@@ -35,36 +35,31 @@
                 <p> User Management</p>
               </a>
             </li>
-            <!-- <li class="nav-item ">
-              <a class="nav-link" href="./icons.html">
+            <li class="nav-item ">
+              <a class="nav-link" href="{{ url ('b_book_o_h') }}">
                 <i class="material-icons">bubble_chart</i>
-                <p>Icons</p>
+                <p>Borrowed Books  History</p>
               </a>
-            </li> -->
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{{ url ('r_book') }}">
+                <i class="material-icons">Returned books</i>
+                <p>Returned books</p>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{{ url ('date_user') }}">
+                <i class="material-icons">filter_frames</i>
+                <p>Date User</p>
+              </a>
+            </li>
             <!-- <li class="nav-item ">
-              <a class="nav-link" href="./map.html">
-                <i class="material-icons">location_ons</i>
-                <p>Maps</p>
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" href="./notifications.html">
-                <i class="material-icons">notifications</i>
-                <p>Notifications</p>
-              </a>
-            </li>
-            <li class="nav-item ">
               <a class="nav-link" href="./rtl.html">
                 <i class="material-icons">language</i>
                 <p>RTL Support</p>
               </a>
             </li> -->
-            <li class="nav-item active-pro ">
-              <a class="nav-link" href="./upgrade.html">
-                <i class="material-icons">unarchive</i>
-                <p>Upgrade to PRO</p>
-              </a>
-            </li>
+            
           </ul>
         </div>
       </div>

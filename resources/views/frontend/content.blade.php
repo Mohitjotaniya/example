@@ -1,6 +1,7 @@
 @extends('frontend.master')
-
 @include('frontend.headersection')
+
+
 @include('frontend.slidersection')
 @include('frontend.searchsection')
 

@@ -179,9 +179,9 @@
                                                                     class="form-control" id="cn"
                                                               >
                                                                     <option value="">Please Select</option>
-                                                                    <option value="fhfdhhdfhdf"> gujarat</option>
-                                                                    <option value="fhfdhhdfhdf"> up</option>
-                                                                    <option value="fhfdhhdfhdf"> bihar</option>
+                                                                    <option value="gujarat"> gujarat</option>
+                                                                    <option value="up"> up</option>
+                                                                    <option value="bihar"> bihar</option>
                                                                    
 
                                                                 </select>
@@ -197,9 +197,9 @@
                                                                     class="form-control" id="cn"
                                                               >
                                                                     <option style=" border-color:#000000;" value="">Please Select</option>
-                                                                    <option value="fhfdhhdfhdf"> rajkot</option>
-                                                                    <option value="fhfdhhdfhdf"> surat</option>
-                                                                    <option value="fhfdhhdfhdf"> Div</option>
+                                                                    <option value="rajkot"> rajkot</option>
+                                                                    <option value="surat"> surat</option>
+                                                                    <option value="Div"> Div</option>
                                                                    
 
                                                                 </select>
