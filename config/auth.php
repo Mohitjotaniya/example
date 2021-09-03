@@ -83,7 +83,7 @@ return [
         ],
         'writers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\UserloginModel::class,
+            'model' => App\Models\Writers::class,
         ],
 
         // 'users' => [

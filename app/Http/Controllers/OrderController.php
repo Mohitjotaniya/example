@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Models\OrderModel;
-use App\Models\UserloginModel;
+use App\Models\Order;
+use App\Models\Carts;
+use App\Models\Books;
+use App\Models\Writers;
 
-
-use App\Models\AddtocartModel;
 
 
 use App\Contact;
@@ -34,9 +34,9 @@ class OrderController extends Controller
     {
         $useredit=$request->session()->get('username');
 
-        $result = UserloginModel::where('u_id',$request->session()->get('username')->u_id)->first();
+        $result = Writers::where('u_id',$request->session()->get('username')->u_id)->first();
 
-        $oderview=OrderModel::all();
+        $oderview=Order::all();
         return view('frontend.checkout',['useredit'=>$result]);
 
     }
@@ -64,13 +64,13 @@ class OrderController extends Controller
     
 
         $u_id = $request->session()->get('username')->u_id;
-        $allcart = AddtocartModel::where('u_id',$u_id)->get();
+        $allcart = Carts::where('u_id',$u_id)->get();
 
 
         foreach($allcart as $cart)
         {
 
-        $order = new OrderModel();
+        $order = new Order();
         $order->book_id = $cart['book_id'];
         $order->u_id = $cart['u_id'];
         $order->b_sum =$request->input('b_sum');
@@ -79,7 +79,7 @@ class OrderController extends Controller
         $order->save();
 
         }
-        $result = AddtocartModel::where(['u_id'=> $u_id])->delete();
+        $result = Carts::where(['u_id'=> $u_id])->delete();
 
 
 
@@ -135,11 +135,10 @@ class OrderController extends Controller
    
 
 
-    $oderview = OrderModel::join('writer', 'user_order.u_id', '=', 'writer.u_id')
-    ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-    ->select('writer.*','add_book.*','user_order.*')
-  
-    ->where('user_order.u_id',$u_id)
+    $oderview = Order::join('writers', 'orders.u_id', '=', 'writers.u_id')
+    ->join('books', 'orders.book_id', '=', 'books.book_id')
+    ->select('writers.*','books.*','orders.*')
+    ->where('orders.u_id',$u_id)
     ->get();
     
        // $oderview=orderModel::all()->where('u_id',$u_id);
@@ -185,12 +184,12 @@ class OrderController extends Controller
        
     
     
-        $oderview = OrderModel::
-        join('writer', 'user_order.u_id', '=', 'writer.u_id')
-        ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-        ->select('writer.*','add_book.*','user_order.*')
+        $oderview = Order::
+        join('writers', 'orders.u_id', '=', 'writers.u_id')
+        ->join('books', 'orders.book_id', '=', 'books.book_id')
+        ->select('writers.*','books.*','orders.*')
       
-        ->where('user_order.u_id',$u_id)
+        ->where('order.u_id',$u_id)
         ->get();
        
            // $oderview=orderModel::all()->where('u_id',$u_id);

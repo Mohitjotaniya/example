@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DateuserModel;
+use App\Models\Order;
 
 
 
@@ -22,10 +22,10 @@ class DateuserController extends Controller
          $request->session()->put('fdate', $fdate);
          $request->session()->put('ldate', $ldate);
          
-        $return = DateuserModel::join('writer', 'user_order.u_id', '=', 'writer.u_id')
-                ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-                ->select('writer.*','add_book.*','user_order.*')
-                ->whereBetween('user_order.created_at', array($fdate,$ldate))
+        $return = Order::join('writers', 'orders.u_id', '=', 'writers.u_id')
+                ->join('books', 'orders.book_id', '=', 'books.book_id')
+                ->select('writers.*','books.*','orders.*')
+                ->whereBetween('orders.created_at', array($fdate,$ldate))
                 //->where('user_order.created_at' ,'LIKE','%'.$fdate .'%') 
                
                 ->get();

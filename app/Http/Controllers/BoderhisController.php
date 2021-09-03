@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\BoderhisModel;
-use App\Models\BookModel;
+use App\Models\Books;
+use App\Models\Order;
+
 
 
 
@@ -31,10 +33,10 @@ class BoderhisController extends Controller
 
         $request->session()->put('name', $name);
         
-        $oderhistory = BoderhisModel::join('writer', 'user_order.u_id', '=', 'writer.u_id')
-        ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-        ->where('writer.u_name' ,'LIKE','%'.$name .'%')
-        ->select('writer.*','add_book.*','user_order.*')
+        $oderhistory = Order::join('writers', 'orders.u_id', '=', 'writers.u_id')
+        ->join('books', 'orders.book_id', '=', 'books.book_id')
+        ->where('writers.u_name' ,'LIKE','%'.$name.'%')
+        ->select('writers.*','books.*','orders.*')
         ->get();
         
        
@@ -53,9 +55,9 @@ class BoderhisController extends Controller
      */
     public function returnedbook()
     {
-        $oderhistory = BoderhisModel::join('writer', 'user_order.u_id', '=', 'writer.u_id')
-        ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-        ->select('writer.*','add_book.*','user_order.*')
+        $oderhistory = Order::join('writers', 'orders.u_id', '=', 'writers.u_id')
+        ->join('books', 'orders.book_id', '=', 'books.book_id')
+        ->select('writers.*','books.*','orders.*')
         ->paginate(10);
         return view('admin.r_book',['oderhistory'=>$oderhistory]);
     }
@@ -102,9 +104,9 @@ class BoderhisController extends Controller
      */
     public function edit($id)
     {
-        $return =BoderhisModel::join('writer', 'user_order.u_id', '=', 'writer.u_id')
-        ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-        ->select('writer.*','add_book.*','user_order.*')
+        $return =Order::join('writers', 'orders.u_id', '=', 'writers.u_id')
+        ->join('books', 'orders.book_id', '=', 'books.book_id')
+        ->select('writers.*','books.*','orders.*')
         ->where('o_id',$id)
         ->get();
 
@@ -126,13 +128,13 @@ class BoderhisController extends Controller
         $r_date =$request->input('r_date');
         //dd( $r_date);
         $data=array("r_date"=>$r_date);  
-        BoderhisModel::where('o_id',$id)->update($data);
+        Order::where('o_id',$id)->update($data);
         $book_id =$request->input('book_id');
         $quan =$request->input('quan');
 
 
        
-        BookModel::where('book_id',$book_id)->update(['quan' => $request->input('quan')+1]);
+        Books::where('book_id',$book_id)->update(['quan' => $request->input('quan')+1]);
        
         return redirect("/r_book")->with('rupdsuccess','Returned book update');
 

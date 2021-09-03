@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\BookviewModel;
+use App\Models\Books;
 
 
 class BookviewController extends Controller
@@ -16,7 +16,7 @@ class BookviewController extends Controller
     public function index()
     {
 
-        $user=BookviewModel::paginate(4);
+        $user=Books::paginate(4);
         return view('frontend.books-media-list-view',['user'=>$user]);
       
         //return view('frontend.books-media-list-view');

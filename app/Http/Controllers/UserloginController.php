@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UserloginModel;
+use App\Models\Writers;
 use Auth;
 use \Hash;
 use Session;
@@ -76,7 +76,7 @@ class UserloginController extends Controller
     { 
         $useredit=$r->session()->get('username');
 
-        $result = UserloginModel::where('u_id',$r->session()->get('username')->u_id)->first();
+        $result = Writers::where('u_id',$r->session()->get('username')->u_id)->first();
         // dd($result->name);
 
         return view('frontend/profile',['useredit'=>$result]);
@@ -126,7 +126,7 @@ class UserloginController extends Controller
     
     
             $data=array("u_name"=>$fname,"lname"=>$lname,"email"=>$em,"phone"=>$code,"bod"=>$bod,"address"=>$add,"city"=>$city,"county"=>$cou);  
-            UserloginModel::where('u_id',$id)->update($data);
+            Writers::where('u_id',$id)->update($data);
             //dd($data);
              // echo $data;
              //return view("admin.addbooks");
@@ -308,7 +308,7 @@ class UserloginController extends Controller
         $password=$request->input('password');
         $data=array("password"=>$password); 
          
-        UserloginModel::where('u_id',$id)->update($data);
+        Writers::where('u_id',$id)->update($data);
   
         return redirect()->back();
 

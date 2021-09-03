@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AddtocartModel;
+use App\Models\Carts;
 use App\Models\BookModel;
+use App\Models\Books;
+
 
 
 
@@ -12,6 +14,13 @@ use App\Models\BookModel;
 
 class AddtocartController extends Controller
 {
+
+    protected $users;
+
+    public function __construct(Carts $users)
+    {
+        $this->users = $users;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +71,7 @@ class AddtocartController extends Controller
 
 
            $data=array("book_id"=>$book_id,"u_id"=>$u_id,"name"=>$name,"author"=>$author,"quan"=>$quan ,"prize"=>$prize);  
-           AddtocartModel::create($data); 
+           $this->users::create($data); 
          //  dd($data);
     //        if (  addtocartModel::create($data)) {
     //         return redirect("/book_view")->with('success','Add book successfuly');
@@ -71,14 +80,14 @@ class AddtocartController extends Controller
     // }
 
             //$addcart=addtocartModel::paginate(3);
-            $users = AddtocartModel::select('u_id')->WHERE('u_id',$u_id)->get();
+            $users = Carts::select('u_id')->WHERE('u_id',$u_id)->get();
             // dd(count($users));
             
             $request->session()->put('cart',count($users));
             $request->session()->put('dataofcart',count($data));
 
 
-            BookModel::where('book_id',$book_id)->update([
+            Books::where('book_id',$book_id)->update([
                 'quan' => $request->input('quan')-1
             ]);
 
@@ -126,7 +135,7 @@ class AddtocartController extends Controller
      */
     public function show()
     {
-        $addcart=AddtocartModel::paginate(3);
+        $addcart= $this->users::paginate(3);
         return view('frontend.headersection',['addcart'=>$addcart]);
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use App\Models\bookModel;
+use App\Models\Books;
 use App\Models\BookModel;
 
 
@@ -13,7 +13,7 @@ class BookController extends Controller
 
     protected $users;
 
-    public function __construct(BookModel $users)
+    public function __construct(Books $users)
     {
         $this->users = $users;
     }
@@ -74,7 +74,8 @@ class BookController extends Controller
         $request->image->move(public_path('images'), $imageName);
 
            $data=array("name"=>$name,"author"=>$author,"language"=>$lang,"prize"=>$prize,"pages"=>$pages,"description"=>$description,"quan"=>$quan,"image"=>$imageName);  
-           $this->users::create($data); 
+           $inser=$this->users->inser($data);
+           //return $inser;
           // dd( $this->users);
          // echo $data;
          //return view("admin.addbooks");
@@ -159,7 +160,7 @@ class BookController extends Controller
 
 
            $data=array("name"=>$name,"author"=>$author,"language"=>$lang,"prize"=>$prize,"pages"=>$pages,"description"=>$description,"quan"=>$quan,"image"=>$imageName);  
-           $this->users::where('book_id',$id)->update($data);
+           $this->users->where('book_id',$id)->update($data);
          // echo $data;
          //return view("admin.addbooks");
 

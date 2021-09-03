@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SigninModel;
+use App\Models\Writers;
 use Hash;
-use App\Writer;
+// use App\Writer;
 
 
 class SigninController extends Controller
@@ -76,7 +76,7 @@ class SigninController extends Controller
 
 
            $data=array("u_name"=>$fname,"lname"=>$lname,"email"=>$em,"password"=>$password1,"phone"=>$code,"bod"=>$bod,"gender"=>$g,"address"=>$add,"city"=>$city,"county"=>$cou);  
-           SigninModel::create($data); 
+           Writers::create($data); 
           // dd($data);
             // echo $data;
          //return view("admin.addbooks");

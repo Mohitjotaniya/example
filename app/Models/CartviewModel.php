@@ -15,5 +15,5 @@ class CartviewModel extends Model
 
     ];
 
-    protected $table='add_to_cart';
+    protected $table='carts';
 }

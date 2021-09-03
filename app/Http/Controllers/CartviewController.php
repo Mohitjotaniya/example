@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CartviewModel;
-use App\Models\BookModel;
+use App\Models\Carts;
+use App\Models\Books;
 use Session;
 
 
@@ -20,9 +20,9 @@ class CartviewController extends Controller
     public function index(Request $request)
     {
         $useredit=$request->session()->get('username')->u_id;
-        $addcart=CartviewModel::all()->where('u_id',$useredit);
+        $addcart=Carts::all()->where('u_id',$useredit);
       
-        $sum = CartviewModel::where('u_id',$useredit)->sum('prize');
+        $sum = Carts::where('u_id',$useredit)->sum('prize');
         $request->session()->put('sum',$sum);
 
         //SELECT SUM(prize) AS "h" FROM add_to_cart WHERE u_id=2
@@ -98,15 +98,15 @@ class CartviewController extends Controller
     public function destroy(Request $request,$id)
     {
        
-        $result2 = CartviewModel::where(['u_id'=> Session::get('username')->u_id,'c_id' => $id])->first();
+        $result2 = Carts::where(['u_id'=> Session::get('username')->u_id,'c_id' => $id])->first();
 
         // dd($result2->book_id);
 
-        $result3 = BookModel::where(['book_id' => $result2->book_id])->first();
+        $result3 = Books::where(['book_id' => $result2->book_id])->first();
         // dd($result3->quan);
-        CartviewModel::where('c_id',$id)->delete();
+        Carts::where('c_id',$id)->delete();
        
-        BookModel::where('book_id',$result2->book_id)->update([
+        Books::where('book_id',$result2->book_id)->update([
             'quan' => $result3->quan+1
         ]); //delete 
 

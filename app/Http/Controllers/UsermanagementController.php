@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UsermanagementModel;
+use App\Models\Writers;
 
 class UsermanagementController extends Controller
 {
@@ -14,7 +14,7 @@ class UsermanagementController extends Controller
      */
     public function index()
     {
-        $users=UsermanagementModel::sortable()->paginate(5);
+        $users=Writers::sortable()->paginate(5);
         return view('admin.usermanagement',['users'=>$users]);
 
         }
@@ -54,7 +54,7 @@ class UsermanagementController extends Controller
             $search=$request->search;
             
       
-     $users=UsermanagementModel::sortable()->where('name','LIKE','%'.$search.'%')->paginate($select );
+     $users=Writers::sortable()->where('name','LIKE','%'.$search.'%')->paginate($select );
     //dd($users);
        return view('admin.usermanagement',['users'=>$users]);
        // $users=usermanagementModel::paginate(5);
@@ -70,7 +70,7 @@ class UsermanagementController extends Controller
      */
     public function edit($id)
     {
-        $data=UsermanagementModel::where('u_id',$id)->first(); //select all data and read one data
+        $data=Writers::where('u_id',$id)->first(); //select all data and read one data
 
         return view('admin.u_edit',['data'=>$data]);    
     }
@@ -102,7 +102,7 @@ class UsermanagementController extends Controller
 
 
         $data=array("u_name"=>$fname,"lname"=>$lname,"email"=>$em,"phone"=>$code,"bod"=>$bod,"address"=>$add,"city"=>$city,"county"=>$cou);  
-        UsermanagementModel::where('u_id',$id)->update($data);
+        Writers::where('u_id',$id)->update($data);
          // echo $data;
          //return view("admin.addbooks");
 
@@ -118,7 +118,7 @@ class UsermanagementController extends Controller
      */
     public function destroy($id)
     {
-        UsermanagementModel::where('u_id',$id)->delete(); //delete 
+        Writers::where('u_id',$id)->delete(); //delete 
 
         return redirect('user_man')->with('delsuccess','Data successfuly Deleted');
     }

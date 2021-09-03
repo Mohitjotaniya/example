@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AddtocartModel;
+use App\Models\carts;
 
 
 class ProductController extends Controller
@@ -47,7 +47,7 @@ class ProductController extends Controller
      */
     public function show()
     {
-        return AddtocartModel::paginate(5);
+        return carts::paginate(5);
     }
 
     /**

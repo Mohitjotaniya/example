@@ -6,6 +6,7 @@ use App\Models\boderhisModel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Session;
+use App\Models\Order;
 
 
 class UsersExport implements FromCollection,WithHeadings
@@ -36,12 +37,12 @@ class UsersExport implements FromCollection,WithHeadings
 //             ]
 //         ]);
 $name=Session::get('name');
-$return=boderhisModel::
+$return=Order::
 
-        join('writer', 'user_order.u_id', '=', 'writer.u_id')
-        ->join('add_book', 'user_order.book_id', '=', 'add_book.book_id')
-        ->where('writer.u_name' ,'LIKE','%'.$name .'%')
-        ->select('writer.u_id','writer.u_name','writer.email','add_book.name','add_book.prize','user_order.created_at')
+        join('writers', 'orders.u_id', '=', 'writers.u_id')
+        ->join('books', 'orders.book_id', '=', 'books.book_id')
+        ->where('writers.u_name' ,'LIKE','%'.$name .'%')
+        ->select('writers.u_id','writers.u_name','writers.email','books.name','books.prize','orders.created_at')
         ->get();
         return $return;
        // dd($re); 

@@ -14,5 +14,5 @@ class DateuserModel extends Model
  
 ];
 
-protected $table='user_order';
+protected $table='orders';
 }

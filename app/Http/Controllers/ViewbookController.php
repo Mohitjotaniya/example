@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use File;
 use Illuminate\Http\Request;
-use App\Models\ViewbookModel;
+use App\Models\Books;
 
 //use Illuminate\support\facades\DB;
 class ViewbookController extends Controller
@@ -18,7 +18,7 @@ class ViewbookController extends Controller
     {
       
 
-         $users=ViewbookModel::sortable()->paginate(5);
+         $users=Books::sortable()->paginate(5);
            return view('admin.viewbook',['users'=>$users]);
          
           // return view('admin.viewbook');
@@ -78,7 +78,7 @@ class ViewbookController extends Controller
                 $search=$request->search;
                 
           
-         $users=ViewbookModel::sortable()->where('name','LIKE','%'.$search.'%')->paginate($select );
+         $users=Books::sortable()->where('name','LIKE','%'.$search.'%')->paginate($select );
         //dd($users);
            return view('admin.viewbook',['users'=>$users]);
          
