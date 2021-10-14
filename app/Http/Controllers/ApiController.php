@@ -8,15 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Auth\SessionGuard;
-use App\Models\userloginModel;
+use App\Models\Writers;
 use App\Models\User;
+use Hash;
+use Str;
 
 use Validator;
 
 class ApiController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','userProfile','update']]);
     }
 
     /**
@@ -24,23 +26,68 @@ class ApiController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request){
-        $credentials = $request->only('email', 'password');
+    // public function login(Request $request){
+    //     $credentials = $request->only('email', 'password');
 
-        try {
-            if (! $token = Auth::guard('writer')->attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
-            }
-        } catch (Exception $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-        return response()->json([
-            'message' => 'User successfully login',
-            'user' => $credentials=$request->only('email')
-        ], 201);
+    //     try {
+    //         if (! $token = Auth::guard('writer')->attempt($credentials)) {
+    //             return response()->json(['error' => 'invalid_credentials'], 400);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json(['error' => 'could_not_create_token'], 500);
+    //     }
+    //     return response()->json([
+    //         'message' => 'User successfully login',
+    //         'user' => $credentials=$request->only('email')
+    //     ], 201);
        
+    // }
+    public function login (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required',
+        ]);
+        if ($validator->fails())
+        {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+        $user = Writers::where('email', $request->email)->first();
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                $response = ['token' => $token];
+                return response($response, 200);
+            } else {
+                $response = ["message" => "Password mismatch"];
+                return response($response, 422);
+            }
+        } else {
+            $response = ["message" =>'User does not exist'];
+            return response($response, 422);
+        }
     }
+// public function login(Request $request)
+// {
+//     $user= Writers::where('email', $request->email)->first();
+    
+//     // print_r($data);
+//         if (!$user || !Hash::check($request->password, $user->password)) {
+//             return response([
+//                 'message' => ['These credentials do not match our records.']
+//             ], 404);
+//         }
+//         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
 
+//         //  $token = $user->createToken('my-app-token')->plainTextToken;
+        
+    
+//         $response = [
+//             'user' => $user,
+//             'token' => $token
+//         ];
+    
+//          return response($response, 201);
+// }
     /**
      * Register a User.
      *
@@ -62,12 +109,14 @@ class ApiController extends Controller
 
             
         ]);
+       
+  
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = userloginModel::create(array_merge(
+        $user = Writers::create(array_merge(
                     $validator->validated(),
                     ['password' => bcrypt($request->password)]
                 ));
@@ -76,18 +125,19 @@ class ApiController extends Controller
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
+    
     }
-
 
     /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
-        auth()->logout();
-
-        return response()->json(['message' => 'User successfully signed out']);
+    public function logout (Request $request) {
+        $token = $request->user()->token();
+        $token->revoke();
+        $response = ['message' => 'You have been successfully logged out!'];
+        return response($response, 200);
     }
 
     // public function show()
@@ -110,10 +160,44 @@ class ApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return userloginModel::paginate(5);
+        return Writers::paginate(5);
         // return response()->json(auth()->user());
     }
+    public function update(Request $request,$id){
+        
+        $validator = Validator::make($request->all(), [
+            'u_name' => 'required|string|between:2,100',
+            'lname' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            
+            'phone' => 'required',
+            'bod' => 'required',
+            'gender' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'county' => 'required',
 
+
+            
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+//$id= Auth::guard('writer');
+
+       // $product = Writers::find($id);
+        $product=Writers::where('u_id', $id)->update(array_merge(
+            $validator->validated(),
+            ['password' => bcrypt($request->password)]
+        ));
+        $response = ['message' => 'You have been successfully Update out!'];
+        return response($response, 200);
+        //dd($product);
+        //return $product;
+
+
+        //return response()->json(auth()->user());
+    }
     /**
      * Get the token array structure.
      *

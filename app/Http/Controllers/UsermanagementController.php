@@ -102,6 +102,7 @@ class UsermanagementController extends Controller
 
 
         $data=array("u_name"=>$fname,"lname"=>$lname,"email"=>$em,"phone"=>$code,"bod"=>$bod,"address"=>$add,"city"=>$city,"county"=>$cou);  
+      
         Writers::where('u_id',$id)->update($data);
          // echo $data;
          //return view("admin.addbooks");

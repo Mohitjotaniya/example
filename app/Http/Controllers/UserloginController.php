@@ -159,121 +159,22 @@ class UserloginController extends Controller
             'password' => $request->get('password')
            );
            
-          
 
           // dd('$request->session()');
            if(Auth::guard('writer')->attempt($user_data))
            {
 
-
-            //  $m=Auth::guard('writer')->user()->name;
-            //    dd($m); 
-           // $request->session()->get('id', $request->get('u_id'));
-          //dd(Auth::guard('writer')->check()) ;
-            //$request->session()->put('data', $request->get('email'));
-            //$data = $request->session()->all();
-            //$this->userprofile = Auth::guard('writer');
-            //   $remember=$request->remember;
-            //   if (!empty($remember)) {
-            //       setcookie('email',$request->get('email'),time()+60*60*24*15);
-            //       setcookie('password',$request->get('password'),time()+60*60*24*15);
-      
-            //   }
             $userss=Auth::guard('writer')->user();
             // dd($userss);
             $request->session()->put('username',$userss);
                 return redirect('/');
-                // $this->m=Auth::guard('writer')->user();
                 
-                   //return view('frontend.content');
-                //   return $this->m;
-                //return redirect('/');
-               
-        // $userss=Auth::guard('writer')->user();
-       
-        // return view('frontend.content',['userss'=>$userss]);
-        
            }
            else
-           {
-               
+           {  
             return back()->with('error', 'Wrong Login Details');
             }
-        // if (Auth::guard('writer')->attempt($user_data) )
        
-        // {
-
-        //     return redirect('')->intended('/writer');
-        // }
-        // return redirect('/Admin')->withInput($request->only('email', 'remember'));
-    
-//         $email = $request->get('email');
-//         $pass  = $request->get('password');
-   
-
-//        // $user = userloginModel::where('email', '=', $email)->first();
-       
-//     //     $user_data = array(
-//     //   'email'  => $request->get('email'),
-//     //   'pass'  => $request->get('password')
-      
-//     //  );
-//      $user = userloginModel::where('email', '=', $email)->first();
-
-// //dd($user);
-//        // Session::put('email',$request->email);
-//         $request->session()->put('data', $request->get('email'));
-
-
-
-//         //$session=Session::get('email');
-//        //dd( $request->session());
-//         if (Auth::login($user)) {
-            
-//             return redirect('/user_login') ->with('fail','Login Fail, please check email id');
-//           // return response()->json(['success'=>false, 'message' => 'Login Fail, please check email id']);
-//         }
-//         if (!Hash::check($pass, $user->pass)) {
-//             return redirect('/user_login') ->with('fail','Login Fail, pls check password');
-//           //return response()->json(['success'=>false, 'message' => 'Login Fail, pls check password']);
-//         }
-//         return redirect('/');
-//        // $request->session()->put('data', $request->get('email'));
-        
-        
-    
-    
-    
-//      $this->validate($request, [
-//       'email'   => 'required|email',
-//       'password'  => 'required|alphaNum|min:3'
-//      ]);
-
-//      $user_data = array(
-//       'email'  => $request->get('email'),
-//       'pass'  => $request->get('password')
-      
-//      );
-// //dd(Auth::attempt($user_data));
-// $user = userloginModel::where($user_data)->first();
-//      if(Auth::login($user))
-//      {
-
-//         $remember=$request->remember;
-//         if (!empty($remember)) {
-//             setcookie('email',$request->get('email'),time()+60*60*24*15);
-//             setcookie('password',$request->get('password'),time()+60*60*24*15);
-
-//         }
-      
-//       return redirect('/');
-//      }
-//      else
-//      {
-         
-//       return back()->with('error', 'Wrong Login Details');
-//      }
-
     }
 
      function logout(Request $request)

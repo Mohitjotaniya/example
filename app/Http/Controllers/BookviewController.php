@@ -8,6 +8,12 @@ use App\Models\Books;
 
 class BookviewController extends Controller
 {
+    protected $users;
+
+    public function __construct(Books $users)
+    {
+        $this->users = $users;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +21,8 @@ class BookviewController extends Controller
      */
     public function index()
     {
-
-        $user=Books::paginate(4);
+        $user=$this->users->show();
+       
         return view('frontend.books-media-list-view',['user'=>$user]);
       
         //return view('frontend.books-media-list-view');

@@ -74,6 +74,7 @@ class BookController extends Controller
         $request->image->move(public_path('images'), $imageName);
 
            $data=array("name"=>$name,"author"=>$author,"language"=>$lang,"prize"=>$prize,"pages"=>$pages,"description"=>$description,"quan"=>$quan,"image"=>$imageName);  
+          
            $inser=$this->users->inser($data);
            //return $inser;
           // dd( $this->users);
@@ -119,6 +120,16 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
      
+        $request->validate([
+            'name'=>'required',
+            'author'=>'required',
+            'lang'=>'required',
+            'prize'=>'required',
+            'pages'=>'required',
+            'description'=>'required',
+            'quan'=>'required',
+           
+            ]);
         
 
         $name=$request->input('name');
@@ -129,38 +140,16 @@ class BookController extends Controller
         $description = $request->input('description');
         $quan = $request->input('quan');
 
-        // $imageName=$request->file('img');
-        // if ($imageName == null) {
-        //     $filename=rand(). '.'.$imageName->extension();
-        //     $img->move(public_path('images'), $imageName);
-        //     $data=array(
-        //         'image'=>$filename
-        //     );
-        //     $dataid->fill($data)->save();
-        // }
 
-         $imageName = time().'.'.$request->image->extension();  
+        $imageName = time().'.'.$request->image->extension();  
    
-         $request->image->move(public_path('images'), $imageName);
-
-
-
-        //  if (file_exists(public_path($imageName =  $request->extension()))) 
-        //  {
-        //      unlink(public_path($imageName));
-        //  };
-
-
-    // if ( $this->users::exists($imageName)) {
-    //     //File::delete($image_path);
-    //     unlink($imageName);
-    // }
-
-
-
+        $request->image->move(public_path('images'), $imageName);
 
            $data=array("name"=>$name,"author"=>$author,"language"=>$lang,"prize"=>$prize,"pages"=>$pages,"description"=>$description,"quan"=>$quan,"image"=>$imageName);  
-           $this->users->where('book_id',$id)->update($data);
+          
+
+       
+       $this->users->apiupdate($data,$id);
          // echo $data;
          //return view("admin.addbooks");
 
@@ -176,8 +165,9 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        
-        $this->users::where('book_id',$id)->delete(); //delete 
+       // dd($id);
+      $this->users->del($id);
+        // $this->users::where('book_id',$id)->delete(); //delete 
 
         return redirect('viewbook')->with('delsuccess','Data successfuly Deleted');
     }

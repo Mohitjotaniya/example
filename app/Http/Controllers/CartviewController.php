@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Carts;
 use App\Models\Books;
+use Validator;
 use Session;
 
 
@@ -12,6 +13,11 @@ use Session;
 
 class CartviewController extends Controller
 {
+
+    public function __construct(Carts $users)
+    {
+        $this->users = $users;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +26,7 @@ class CartviewController extends Controller
     public function index(Request $request)
     {
         $useredit=$request->session()->get('username')->u_id;
-        $addcart=Carts::all()->where('u_id',$useredit);
+        $addcart=$this->users->idshow( $useredit);
       
         $sum = Carts::where('u_id',$useredit)->sum('prize');
         $request->session()->put('sum',$sum);
@@ -111,5 +117,43 @@ class CartviewController extends Controller
         ]); //delete 
 
         return redirect('cartview')->with('delsuccess','Data successfuly Deleted');
+    }
+
+
+
+
+    //API IN LARAVEL
+
+    public function cartview(Request $request,$id)
+    {
+
+        return $addcart=$this->users->idshow( $id);
+
+       
+       
+    }
+    public function cartdelete(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            
+            'c_id' => 'required',
+           
+            
+        ]);
+         if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $c_id=$request->input('c_id');
+       
+      
+       // $data=array("book_id"=>$book_id,"u_id"=>$u_id);  
+       $addcart=$this->users->cartdelete( $c_id);
+       
+        return response()->json([
+            'message' => 'cart delete',
+           
+        ], 201);
+       
     }
 }

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Carts;
-use App\Models\BookModel;
 use App\Models\Books;
+use Validator;
+
 
 
 
@@ -71,17 +72,9 @@ class AddtocartController extends Controller
 
 
            $data=array("book_id"=>$book_id,"u_id"=>$u_id,"name"=>$name,"author"=>$author,"quan"=>$quan ,"prize"=>$prize);  
-           $this->users::create($data); 
-         //  dd($data);
-    //        if (  addtocartModel::create($data)) {
-    //         return redirect("/book_view")->with('success','Add book successfuly');
-    //     } else {
-    //         return redirect("/book_view")->with('success','Add book successfuly');
-    // }
-
-            //$addcart=addtocartModel::paginate(3);
+           $inser=$this->users->inser($data);    
             $users = Carts::select('u_id')->WHERE('u_id',$u_id)->get();
-            // dd(count($users));
+            
             
             $request->session()->put('cart',count($users));
             $request->session()->put('dataofcart',count($data));
@@ -91,18 +84,7 @@ class AddtocartController extends Controller
                 'quan' => $request->input('quan')-1
             ]);
 
-            // dd($request->session()->get('cart'));
-            //dd($users);
-            //$request->session()->get('cart', $users);
-            //dd( $request->session());
-          // $d='SELECT u_id, COUNT(*) FROM addtocartModel WHERE u_id=1';
-
-           //dd($users);
-           // dd( $this->users);
-         // echo $data;
-         //return view("admin.addbooks");
-
-        
+         
 
          return redirect("/book_view")->with('success','Add book successfuly');
 
@@ -110,21 +92,7 @@ class AddtocartController extends Controller
          }
          
 
-        //  public function updateCart(Request $request)
-        //  {
-        //      \data::update(
-        //          $request->book_id,
-        //          [
-        //              'quantity' => [
-        //                  'relative' => false,
-        //                  'value' => $request->quantity
-        //              ],
-        //          ]
-        //      );
-        //      session()->flash('success', 'Item Cart is Updated Successfully !');
-
-        // return redirect("/book_view");
-        //     }
+       
     
 
     /**
@@ -135,7 +103,7 @@ class AddtocartController extends Controller
      */
     public function show()
     {
-        $addcart= $this->users::paginate(3);
+        $addcart=$this->users->show(); 
         return view('frontend.headersection',['addcart'=>$addcart]);
     }
 
@@ -171,5 +139,72 @@ class AddtocartController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+
+
+
+
+
+
+
+
+    
+
+//API IN LARAVEL
+
+    public function addtocart(Request $request)
+    {
+
+
+        $validator = Validator::make($request->all(), [
+            
+            'u_id' => 'required',
+            'book_id' => 'required',
+            
+        ]);
+      
+      
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+
+        $bookdata= Books::where('book_id', $request->book_id)->get();
+        
+foreach ($bookdata as  $book) {
+    $name= $book->name;
+    $author= $book->author;
+    $quan= $book->quan;
+    $prize= $book->prize;
+  }
+
+  $u_id=$request->input('u_id');
+  $book_id=$request->input('book_id');
+
+  $data=array("book_id"=>$book_id,"u_id"=>$u_id,"name"=>$name,"author"=>$author,"quan"=>$quan ,"prize"=>$prize);  
+
+
+  $inser=$this->users->inser($data); 
+if($inser){
+        return response()->json([
+            'message' => 'Book Add sucssfully',
+          
+        ], 201);
+    }
+    else{
+        return response()->json([
+            'message' => 'User gjghjghjghj registered',
+           
+        ], 201);
+    }
+    }
+
+    public function apishow()
+    {
+        return $addcart=$this->users->show(); 
     }
 }

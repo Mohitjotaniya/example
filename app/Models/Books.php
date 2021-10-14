@@ -25,9 +25,28 @@ class Books extends Model
 
 
         protected $table = "books";
+
     public function inser($data)
     {
         return Books::create($data); 
+    }
+
+    public function show()
+    {
+        
+        return Books::paginate(4);
+    }
+
+    public function del($id)
+    {
+       
+        return  Books::where('book_id',$id)->delete(); ;
+    }
+
+    public function apiupdate($data,$id)
+    {
+       
+        return  Books::where('book_id', $id)->update($data); ;
     }
     
 }

@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Carts;
 use App\Models\Books;
 use App\Models\Writers;
+use Validator;
 
 
 
@@ -189,7 +190,7 @@ class OrderController extends Controller
         ->join('books', 'orders.book_id', '=', 'books.book_id')
         ->select('writers.*','books.*','orders.*')
       
-        ->where('order.u_id',$u_id)
+        ->where('orders.u_id',$u_id)
         ->get();
        
            // $oderview=orderModel::all()->where('u_id',$u_id);
@@ -202,5 +203,50 @@ class OrderController extends Controller
         // $mpdf->SetDisplayMode('fullpage');
         // $mpdf->Output('prueba.pdf', 'D');
 
+    }
+
+
+
+    //API LARAVEl
+
+    public function order(Request $request)
+    {
+
+         
+        $validator = Validator::make($request->all(), [
+            
+            'u_id' => 'required',
+           
+            
+        ]);
+         if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $u_id=$request->input('u_id');
+
+        $allcart = Carts::where('u_id',$u_id)->get();
+        $sum = Carts::where('u_id',$u_id)->sum('prize');
+
+
+        foreach($allcart as $cart)
+        {
+
+        $order = new Order();
+        $order->book_id = $cart['book_id'];
+        $order->u_id = $cart['u_id'];
+        $order->b_sum =$sum;
+        // $order->status = 'Pendding';
+        // $order->payment_method = $r->input('payment');
+        $order->save();
+
+        }
+        $result = Carts::where(['u_id'=> $u_id])->delete();
+
+        return response()->json([
+            'message' => 'order successfuly Add',
+           
+        ], 201);
+       
+       
     }
 }
